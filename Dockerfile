@@ -1,4 +1,4 @@
-FROM debian:bookworm-slim AS builder
+FROM debian:trixie-slim AS builder
 
 WORKDIR /usr/src/app
 
@@ -29,7 +29,7 @@ RUN /root/.local/bin/meson setup \
     cp /usr/src/app/meson-build-release/slipstream-client . && \
     cp /usr/src/app/meson-build-release/slipstream-server .
 
-FROM gcr.io/distroless/cc-debian12 AS runtime
+FROM gcr.io/distroless/cc-debian13 AS runtime
 
 WORKDIR /usr/src/app
 
@@ -37,7 +37,7 @@ COPY ./certs/ ./certs/
 
 ENV PATH=/usr/src/app/:$PATH
 
-LABEL org.opencontainers.image.source=https://github.com/EndPositive/slipstream
+LABEL org.opencontainers.image.source=https://github.com/sredevopsorg/slipstream
 
 FROM runtime AS client
 
