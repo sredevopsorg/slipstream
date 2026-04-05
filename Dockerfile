@@ -1,4 +1,4 @@
-FROM debian:trixie-slim AS builder
+FROM docker.io/debian:trixie-slim@sha256:26f98ccd92fd0a44d6928ce8ff8f4921b4d2f535bfa07555ee5d18f61429cf0c AS builder
 
 WORKDIR /usr/src/app
 
@@ -29,7 +29,7 @@ RUN /root/.local/bin/meson setup \
     cp /usr/src/app/meson-build-release/slipstream-client . && \
     cp /usr/src/app/meson-build-release/slipstream-server .
 
-FROM gcr.io/distroless/cc-debian13 AS runtime
+FROM gcr.io/distroless/cc-debian13:latest@sha256:e1cc90d06703f5dc30ae869fbfce78fce688f21a97efecd226375233a882e62f AS runtime
 
 WORKDIR /usr/src/app
 
