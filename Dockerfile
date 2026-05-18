@@ -29,7 +29,7 @@ RUN /root/.local/bin/meson setup \
     cp /usr/src/app/meson-build-release/slipstream-client . && \
     cp /usr/src/app/meson-build-release/slipstream-server .
 
-FROM gcr.io/distroless/cc-debian13:latest@sha256:e1cc90d06703f5dc30ae869fbfce78fce688f21a97efecd226375233a882e62f AS runtime
+FROM gcr.io/distroless/cc-debian13:latest@sha256:8b5d1db6d2253036a53cb8362d3e3fa82a7caf84c247772c46a023166c64e977 AS runtime
 
 WORKDIR /usr/src/app
 
