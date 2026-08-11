@@ -4,6 +4,7 @@ on:
   push:
     tags:
       - "v*.*.*"
+  workflow_dispatch:
 
 env:
   BUILD_TYPE: Release
@@ -136,22 +137,26 @@ jobs:
         uses: docker/build-push-action@d08e5c354a6adb9ed34480a06d141179aa583294 # v7.0.0
         with:
           context: .
-          push: true
+          push: ${{ github.ref_type == 'tag' }}
           platforms: linux/amd64,linux/arm64
           tags: ${{ steps.meta-server.outputs.tags }}
           labels: ${{ steps.meta-server.outputs.labels }}
           target: server
+          cache-from: type=gha,scope=server
+          cache-to: type=gha,mode=max,scope=server
 
       - name: Build and push Docker image (client)
         id: push-client
         uses: docker/build-push-action@d08e5c354a6adb9ed34480a06d141179aa583294 # v7.0.0
         with:
           context: .
-          push: true
+          push: ${{ github.ref_type == 'tag' }}
           platforms: linux/amd64,linux/arm64
           tags: ${{ steps.meta-client.outputs.tags }}
           labels: ${{ steps.meta-client.outputs.labels }}
           target: client
+          cache-from: type=gha,scope=client
+          cache-to: type=gha,mode=max,scope=client
 
       - name: Generate artifact attestation (server)
         uses: actions/attest-build-provenance@a2bbfa25375fe432b6a289bc6b6cd05ecd0c4c32 # v4.1.0
